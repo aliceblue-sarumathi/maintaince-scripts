@@ -18,10 +18,6 @@ else
     echo "Rsync encountered an error." >> "$TMP_LOG_FILE"
 fi
 
-# Report moved files
-echo "Moved files:" >> "$TMP_LOG_FILE"
-grep -E '^[^\/]+\s+->\s+[^\/]+$' "$TMP_LOG_FILE" >> "$TMP_LOG_FILE"
-
 # Append the temporary log file to the main log file
 cat "$TMP_LOG_FILE" >> "$LOG_FILE"
 
