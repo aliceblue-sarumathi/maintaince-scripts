@@ -56,9 +56,5 @@ The script generates a CSV file named `user_host_list.csv` with the following fo
 - Ensure that your MySQL user has the necessary permissions to query the `mysql.user` table.
 - For large datasets, the output may be extensive. Consider using appropriate tools to handle and view large CSV files.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 
 
