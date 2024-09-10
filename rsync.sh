@@ -9,7 +9,7 @@ LOG_FILE="/path/to/sync_$(date +'%Y-%m-%d_%H-%M-%S').log"
 TMP_LOG_FILE="/tmp/sync_tmp_$(date +'%Y-%m-%d_%H-%M-%S').log"
 
 # Run rsync and log output
-rsync -aogpvz -e "ssh -p 20202" --exclude='folder/to/skip/' "$SOURCE_DIR" "$DESTINATION_DIR" > "$TMP_LOG_FILE" 2>&1
+rsync -aogpvz -e "ssh -p 20202" --exclude='folder/to/skip/' --rsync-path="sudo rsync" "$SOURCE_DIR" "$DESTINATION_DIR" > "$TMP_LOG_FILE" 2>&1
 
 # Check if rsync was successful
 if [ $? -eq 0 ]; then
