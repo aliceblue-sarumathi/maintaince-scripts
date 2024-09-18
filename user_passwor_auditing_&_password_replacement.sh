@@ -5,8 +5,14 @@ declare -A SERVERS=(
   ["Testserver"]="root@192.168.40.95:/home/test/audit-bash/test:22"
 )
 
-# Define output file for the password expiry details
-OUTPUT_FILE="password_expiry_report.csv"
+# Get the current date and time to use in the output file name
+CURRENT_DATE=$(date '+%Y-%m-%d_%H-%M-%S')
+
+# Define output file for the password expiry details with date and time
+OUTPUT_FILE="password_expiry_report_${CURRENT_DATE}.csv"
+
+# Write the CSV header
+echo "Server,Username,Last Password Change,Password Expires,Password Inactive,Account Expiration,Min Days Between Change,Max Days Between Change,Warn Days,New Password" > "$OUTPUT_FILE"
 
 # Function to generate a random password with at least 12 characters
 generate_random_password() {
@@ -84,11 +90,12 @@ process_users() {
     password_inactive=$(date -d "$password_inactive" '+%b %d %Y' 2>/dev/null || echo "Sep 17 2024")
     account_expiration=$(date -d "$account_expiration" '+%b %d %Y' 2>/dev/null || echo "never")
     
-    echo "$server,$user,$last_password_change,$password_expiry,$password_inactive,$account_expiration,$min_days_change,$max_days_change,$warn_days" >> "$OUTPUT_FILE"
-    
     # Generate a new random password
     local new_password=$(generate_random_password)
     echo "Generated password for $user: $new_password"
+    
+    # Save user details and password into CSV
+    echo "$server,$user,$last_password_change,$password_expiry,$password_inactive,$account_expiration,$min_days_change,$max_days_change,$warn_days,$new_password" >> "$OUTPUT_FILE"
     
     # Change the user's password
     change_password "$server" "$user" "$new_password"
